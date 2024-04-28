@@ -4,6 +4,8 @@ Lightweight implementation of the [FaST-LMM algorithm](https://europepmc.org/art
 
 $$y \\sim N\\bigl(X\\beta, \\sigma^2(K + \\delta I) \\bigr)$$
 
+with $y\in\mathbb{R}^n$ an observed response vector, $X\in\mathbb{R}^{n\times d}$ an observed matrix of $d$ covariates, $K\in\mathbb{R}^{n\times n}$ a kernel matrix and $I$ the identity matrix. 
+
 [julia implementation](https://github.com/sens/FaSTLMM.jl)
 
 [original](https://fastlmm.github.io/)
