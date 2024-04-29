@@ -22,4 +22,7 @@ with $y\in\mathbb{R}^n$ an observed response vector, $X\in\mathbb{R}^{n\times d}
 - [ ] LMMs/GPs with low-rank kernel matrix factorization
 - [ ] Fourier-space method for translationally invariant kernels
 
-[![Build Status](https://github.com/tmichoel/FaSTLMMlight.jl/actions/workflows/CI.yml/badge.svg?branch=master)](https://github.com/tmichoel/FaSTLMMlight.jl/actions/workflows/CI.yml?query=branch%3Amaster)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://tmichoel.github.io/FaSTLMMlight.jl/stable/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://tmichoel.github.io/FaSTLMMlight.jl/dev/)
+[![Build Status](https://github.com/tmichoel/FaSTLMMlight.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/tmichoel/FaSTLMMlight.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/tmichoel/SpatialOmicsGPs.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/tmichoel/FaSTLMMlight.jl)
