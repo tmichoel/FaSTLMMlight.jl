@@ -1,4 +1,8 @@
-# FaST-LMM
+```@meta
+CurrentModule = FaSTLMMlight
+```
+
+# FaST-LMM full rank
 
 ```@docs
 fastlmm_fullrank

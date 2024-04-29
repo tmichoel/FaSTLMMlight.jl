@@ -1,5 +1,5 @@
 ```@meta
-CurrentModule = SpatialOmicsGPs
+CurrentModule = FaSTLMMlight
 ```
 
 # List of package functions
