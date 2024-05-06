@@ -1,9 +1,9 @@
 push!(LOAD_PATH,"../src/")
 
-#using SpatialOmicsGPs
+#using FaSTLMMlight
 using Documenter, FaSTLMMlight
 
-#DocMeta.setdocmeta!(SpatialOmicsGPs, :DocTestSetup, :(using SpatialOmicsGPs); recursive=true)
+#DocMeta.setdocmeta!(FaSTLMMlight, :DocTestSetup, :(using FaSTLMMlight); recursive=true)
 
 makedocs(;
     modules=[FaSTLMMlight],
