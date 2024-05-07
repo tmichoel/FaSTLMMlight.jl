@@ -46,10 +46,5 @@ Analytic expressions for the maximum-likelihood estimates ``\hat{\beta}`` and ``
 Plugging these expressions into the negative log-likelihood results in a (non-convex) function of the parameter ``\delta``, which upto an additive constant is given by: 
 
 ```math
-\mathcal{L}(\delta) = \log\det (\K+\delta\I) + n \log \hat{\sigma}^2
-```
-
-## Table of contents
-
-```@contents
+\mathcal{L}(\delta) = \log\det (K+\delta I) + n \log \hat{\sigma}^2
 ```

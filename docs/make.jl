@@ -16,6 +16,7 @@ makedocs(;
     ),
     pages=[
         "Introduction" => "index.md",
+        "SVD of the fixed effects" => "svd-fixed-effects.md",
         "FaST-LMM full rank" => "FaST-LMM-fullrank.md",
         "List of functions" => "listfunctions.md"
     ],
