@@ -15,7 +15,8 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Introduction" => "index.md",
+        "Contents" => "index.md",
+        "Introduction" => "introduction.md",
         "SVD of the fixed effects" => "svd-fixed-effects.md",
         "FaST-LMM full rank" => "FaST-LMM-fullrank.md",
         "List of functions" => "listfunctions.md"

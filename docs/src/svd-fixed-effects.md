@@ -2,4 +2,4 @@
 CurrentModule = FaSTLMMlight
 ```
 
-## SVD of the fixed effects
+# SVD of the fixed effects
