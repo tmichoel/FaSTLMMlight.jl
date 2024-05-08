@@ -4,7 +4,7 @@ CurrentModule = FaSTLMMlight
 
 # Introduction
 
-We consider the setup of [Lippert et al.](https://europepmc.org/article/med/21892150), where:
+We consider the setup of [Lippert et al. (2011)](https://europepmc.org/article/med/21892150), where:
 
 - ``y\in\mathbb{R}^n`` is a response vector with values for ``n`` samples,
 - ``X\in\mathbb{R}^{n\times d}`` is a matrix with data of ``d`` covariates (fixed effects) in the same ``n`` samples,
@@ -45,3 +45,7 @@ Plugging these expressions into the negative log-likelihood results in a (non-co
 ```math
 \mathcal{L}(\delta) = \log\det (K+\delta I) + n \log \hat{\sigma}^2
 ```
+
+In [Lippert et al. (2011)](https://europepmc.org/article/med/21892150), the eigenvalue decomposition of ``K`` is used to increase the efficiency of evaluating ``\mathcal{L}(\delta)`` for a range of ``\delta`` values, and thereby speed up the process of finding the maximum-likelihood estimate ``\hat\delta``. However, their method still expresses the evaluation of ``\hat\beta(\delta)`` as the solution of a linear system (if the number of covariates ``d>1``). This implies that the gradient of ``\mathcal{L}(\delta)`` cannot be computed using [automatic differentiation](https://julianlsolvers.github.io/Optim.jl/stable/user/gradientsandhessians/#Automatic-differentiation), which means that only [gradient-free optimization algorithms](https://julianlsolvers.github.io/Optim.jl/stable/algo/nelder_mead/) can be used ([Lippert et al. (2011)](https://europepmc.org/article/med/21892150) used a basic grid-based search).
+
+Instead, [FaST-LMM light](https://github.com/tmichoel/FaSTLMMlight.jl) first uses the singular value decomposition of the fixed effects matrix ``X`` to express the negative log-likelihood on the space orthogonal to the columns of ``X`` (in other words, uses [restricted maximum likelihood](https://en.wikipedia.org/wiki/Restricted_maximum_likelihood)). Then the spectral decomposition of ``K`` on the restricted space is used in the same manner as in the original FaST-LMM method, which results in a restricted negative log-likelihood function ``\mathcal{L}_R(\delta)`` whose gradient *can* be evaluated using [automatic differentiation](https://julianlsolvers.github.io/Optim.jl/stable/user/gradientsandhessians/#Automatic-differentiation).
