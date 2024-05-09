@@ -33,7 +33,7 @@ Using standard results for the [inverse](https://en.wikipedia.org/wiki/Block_mat
 Furthermore, we have
 
 ```math
-  X (X^TAX)^{-1} X^T = V_1\Gamma W^T (W\GammaV_1^TAV_1\GammaW^T)^{-1} W \Gamma V_1^T  = V_1 (V_1^TAV_1)^{-1} V_1^T = V_1 (A_{11})^{-1} V_1^T.
+  X (X^T A X)^{-1} X^T = V_1\Gamma W^T (W\Gamma V_1^T A V_1\Gamma W^T)^{-1} W \Gamma V_1^T  = V_1 (V_1^T A V_1)^{-1} V_1^T = V_1 (A_{11})^{-1} V_1^T.
 \end{aligned}
 ```
 
@@ -96,7 +96,7 @@ Because using the maximum-likelihood estimates ``\hat\beta`` has the effect of p
  and consider the residual or restricted negative log-likelihood function
 
 ```math
-  \L_R(\sigma^2,\delta) = \log\det\bigl[\sigma^2(K_{22}+\delta I)\bigr] + \frac1{\sigma^2} \langle y_2,(K_{22}+\delta I)^{-1} y_2\rangle.
+  \mathcal{L}_R(\sigma^2,\delta) = \log\det\bigl[\sigma^2(K_{22}+\delta I)\bigr] + \frac1{\sigma^2} \langle y_2,(K_{22}+\delta I)^{-1} y_2\rangle.
 ```
 
 This results in the restricted  maximum-likelihood estimate
@@ -108,7 +108,7 @@ This results in the restricted  maximum-likelihood estimate
 which is ``n/(n-d)`` times the unrestricted maximum-likelihood estimate. Plugging this in the restricted negative log-likelihood function gives, upto an additive constant
 
 ```math
-  \L_R(\delta) = \log\det\bigl(K_{22}+\delta I\bigr) + (n-d)\log \bigl\langle y_2,(K_{22}+\delta I)^{-1} y_2\bigr\rangle,
+  \mathcal{L}_R(\delta) = \log\det\bigl(K_{22}+\delta I\bigr) + (n-d)\log \bigl\langle y_2,(K_{22}+\delta I)^{-1} y_2\bigr\rangle,
 ```
 
 which needs to be minimized to obtain the restricted maximum-likelihood estimate ``\hat\delta``.
