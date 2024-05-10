@@ -4,7 +4,7 @@ CurrentModule = FaSTLMMlight
 
 # FaST-LMM full rank
 
-We first consider the scenario where ``K`` is defined by a square semi-positive definite matrix and ``K_{22}`` has been computed by [`proj_orth_covar`](@ref). Following [Lippert et al. (2011)](https://europepmc.org/article/med/21892150), we call this the "full rank" scenario, although neither ``K`` nor ``K_{22}`` actually has to have full rank.
+We first consider the scenario where ``K`` is defined by a square semi-positive definite matrix and ``K_{22}`` has been computed by [`project_orth_covar`](@ref). Following [Lippert et al. (2011)](https://europepmc.org/article/med/21892150), we call this the "full rank" scenario, although neither ``K`` nor ``K_{22}`` actually has to have full rank.
 
 The spectral decomposition of ``K_{22}`` can be written as ``K_{22}=U \Lambda U^T``, with ``U\in\mathbb{R}^{(n-d)\times (n-d)}`` unitary and ``\Lambda\in\mathbb{R}^{(n-d)\times (n-d)}`` diagonal with non-negative diagonal elements ``\lambda_i=\Lambda_{ii}\geq 0``, which we assume are ordered, ``\lambda_1\geq\lambda_2\geq \dots \geq \lambda_{n-d}\geq 0``
 
