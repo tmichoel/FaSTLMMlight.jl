@@ -9,6 +9,7 @@ We consider the setup of [Lippert et al. (2011)](https://europepmc.org/article/m
 - ``y\in\mathbb{R}^n`` is a response vector with values for ``n`` samples,
 - ``X\in\mathbb{R}^{n\times d}`` is a matrix with data of ``d`` covariates (fixed effects) in the same ``n`` samples,
 - ``K\in\mathbb{R}^{n\times n}`` is a positive semi-definite sample similarity matrix, scaled such that ``\mathrm{tr}(K)=n``,
+- ``\mu`` is an (unknown) overall mean parameter,
 - ``\beta\in\mathbb{R}^d`` is the (unknown) vector of fixed effect weights,
 - ``\sigma^2`` is the (unknown) variance explained by ``K``,
 - ``\sigma_e^2`` is the (unknown) residual error variance,
@@ -17,12 +18,20 @@ We consider the setup of [Lippert et al. (2011)](https://europepmc.org/article/m
 and ``y`` is distributed as
 
 ```math
-y \sim N\bigl( X\beta, \sigma^2 K + \sigma_e^2 I\bigr) = N\bigl( X\beta, \sigma^2 (K + \delta I)\bigr)
+y \sim N\bigl(\mu + X\beta, \sigma^2 K + \sigma_e^2 I\bigr) = N\bigl( X\beta, \sigma^2 (K + \delta I)\bigr)
 ```
 
 where ``N`` denotes a multivariate normal distribution.
 
-The unknown parameters ``(\beta,\sigma^2,\delta)`` are estimated by maximum-likelihood (or restricted maximum-likelihood, see below), that is, by minimizing the negative log-likelihood function
+By adding a column of ones to ``X`` we can absorb the parameter ``\mu`` in the vector of fixed effect weights ``\beta``. High-level functions in this package all accept a parameter `mean=true` which will call this operation:
+
+```@docs
+create_covariate_matrix
+```
+
+Low-level functions all work with the model where ``\mu`` is not explicitly modelled and the unknown parameters are ``(\beta,\sigma^2,\delta)``. If `mean=true` then in the output the overall estimated mean corresponds to the first element ``\beta[1]``.
+
+The parameters ``(\beta,\sigma^2,\delta)`` are estimated by maximum-likelihood (or restricted maximum-likelihood, see below), that is, by minimizing the negative log-likelihood function
 
 ```math
 \mathcal{L} = \log\det\bigl[ \sigma^2 (K + \delta I) \bigr] + \frac1{\sigma^2} \bigl\langle y-X\beta, (K + \delta I)^{-1} (y-X\beta)\bigr\rangle,

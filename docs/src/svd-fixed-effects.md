@@ -108,7 +108,19 @@ This results in the restricted  maximum-likelihood estimate
 which is ``n/(n-d)`` times the unrestricted maximum-likelihood estimate. Plugging this in the restricted negative log-likelihood function gives, upto an additive constant
 
 ```math
-  \mathcal{L}_R(\delta) = \log\det\bigl(K_{22}+\delta I\bigr) + (n-d)\log \bigl\langle y_2,(K_{22}+\delta I)^{-1} y_2\bigr\rangle,
+  \mathcal{L}_R(\delta) = \log\det\bigl(K_{22}+\delta I\bigr) + (n-d)\log \hat\sigma^2.
+```
+
+Because the sample size ``n`` may be large, we scale this function by ``n-d`` to obtain
+
+```math
+\ell_R(\delta) = \frac1{n-d} \mathcal{L}_R(\delta) = \frac1{n-d}\log\det\bigl(K_{22}+\delta I\bigr) + \log \hat\sigma^2,
 ```
 
 which needs to be minimized to obtain the restricted maximum-likelihood estimate ``\hat\delta``.
+
+If ``K`` is given as a square matrix, the projection of ``y`` and ``K`` onto the space orthogonal to the columns of ``X`` is done by the function:
+
+```@docs
+project_orth_covar
+```
