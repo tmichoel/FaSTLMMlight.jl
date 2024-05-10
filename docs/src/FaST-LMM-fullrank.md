@@ -30,6 +30,8 @@ These results allow to express the terms in ``\mathcal{\ell}_R``
 \end{aligned}
 ```
 
+Note the crucial difference with the original FaST-LMM method. There the eigenvalue decomposition of the *full* matrix ``K`` is used to facilitate the computation of the negative log-likelihood ``\mathcal{L}`` (see [Introduction](@ref)), which still involves the solution of a linear system to compute ``\hat\beta``. By working in the restricted space orthogonal to the fixed effects and using the eigenvalue decomposition of the *reduced* matrix ``K_{22}``, we have obtained a restricted negative log-likelihood ``\ell_R`` which, given ``\lambda`` and ``\tilde y`` is trivial to evaluate and differentiate by  [automatic differentiation](https://julianlsolvers.github.io/Optim.jl/stable/user/gradientsandhessians/#Automatic-differentiation).
+
 The values of ``\hat\sigma^2`` and ``\ell_R``  as a function of the parameter ``\delta`` and vectors ``\lambda`` and ``\tilde y`` are computed by the functions
 
 ```@docs
@@ -37,11 +39,14 @@ sigma2_mle_fullrank
 minus_log_like_fullrank
 ```
 
-The function 
+The optimization of the function ``\ell_R`` is done by the function [`delta_mle_fullrank`](@ref) using the [LBFGS algorithm](https://julianlsolvers.github.io/Optim.jl/stable/algo/lbfgs/). Because ``\delta`` must be greater than zero, we write ``\delta`` as the [`softplus`](@ref) function of an unconstrained variable ``x``, that is ``\delta=log(1+e^x)``, and optimize with respect to ``x``
+
+```@docs
+delta_mle_fullrank
+softplus
+```
 
 ```@docs
 fastlmm_fullrank
-delta_mle_fullrank
 beta_mle_fullrank_lazy
-softplus
 ```

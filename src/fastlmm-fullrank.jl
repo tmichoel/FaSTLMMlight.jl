@@ -66,7 +66,7 @@ end
 """
     minus_log_like_fullrank(δ, λ, yr)
 
-Compute the minus log-likelihood of the model, scaled by the number of samples and without constant factors, given the variance ratio δ, the eigenvalues of the kernel matrix, the rotated response vector and (optionally) the rotated covariates.
+Compute the minus log-likelihood of the model, scaled by the number of samples and without constant factors, given the variance ratio δ, the eigenvalues of the kernel matrix, and the rotated response vector.
 """
 function minus_log_like_fullrank(δ, λ, yr)
     # Compute the minus log-likelihood of the model, scaled by half the number of samples and without constant factors
