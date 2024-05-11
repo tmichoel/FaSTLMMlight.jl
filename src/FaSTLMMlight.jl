@@ -6,9 +6,9 @@ using Statistics
 using Optim
 
 # Code files
-include("fastlmm-fullrank.jl")
+include("fastlmm-core.jl")
 
 # FaST-LMM Exports
-export fastlmm_fullrank, sigma2_mle_fullrank, minus_log_like_fullrank, delta_mle_fullrank, beta_mle_fullrank_lazy, create_covariate_matrix, project_orth_covar, softplus
+export fastlmm_fullrank, sigma2_reml, neg_log_like, delta_reml, beta_mle_fullrank_lazy, create_covariate_matrix, project_orth_covar, softplus
 
 end

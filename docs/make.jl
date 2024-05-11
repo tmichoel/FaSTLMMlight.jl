@@ -18,7 +18,7 @@ makedocs(;
         "Contents" => "index.md",
         "Introduction" => "introduction.md",
         "SVD of the fixed effects" => "svd-fixed-effects.md",
-        "FaST-LMM full rank" => "FaST-LMM-fullrank.md",
+        "FaST-LMM full rank" => "fastlmm-fullrank.md",
         "List of functions" => "listfunctions.md"
     ],
 )

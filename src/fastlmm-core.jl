@@ -31,9 +31,9 @@ function fastlmm_fullrank(y,K; covariates = [], mean = true, lambda_tol = 1e-3)
 
     if size(yr,2) == 1
         # Compute the REML of the variance ratio δ
-        δ, res = delta_mle_fullrank(λ, yr);
+        δ, res = delta_reml(λ, yr);
         # Compute the REML of the variance parameter σ²
-        σ² = sigma2_mle_fullrank(δ, λ, yr);
+        σ² = sigma2_reml(δ, λ, yr);
         # return the MLEs and the full optimization result
         return σ², δ, res
     else 
@@ -42,8 +42,8 @@ function fastlmm_fullrank(y,K; covariates = [], mean = true, lambda_tol = 1e-3)
         σ²s = zeros(size(yr,2));
         loglikes = zeros(size(yr,2));
         for i in eachindex(axes(yr)[2])
-            δs[i], res = delta_mle_fullrank(λ, yr[:,i]);
-            σ²s[i] = sigma2_mle_fullrank(δs[i], λ, yr[:,i]);
+            δs[i], res = delta_reml(λ, yr[:,i]);
+            σ²s[i] = sigma2_reml(δs[i], λ, yr[:,i]);
             loglikes[i] = minimum(res)
         end
         # return the MLEs and the final objective values (minus log-likelihoods)
@@ -52,34 +52,34 @@ function fastlmm_fullrank(y,K; covariates = [], mean = true, lambda_tol = 1e-3)
 end
 
 """
-    delta_mle_fullrank(λ, yr)
+    delta_reml(λ, yr)
 
-Compute the MLE of the variance ratio δ given the eigenvalues of the kernel matrix and the rotated response vector by solving the non-convex optimization problem formulated in the FaST-LMM paper.
+Compute the REML of the variance ratio δ given the eigenvalues of the kernel matrix and the rotated response vector by solving the non-convex optimization problem formulated in the FaST-LMM paper.
 """
-function delta_mle_fullrank(λ, yr)
+function delta_reml(λ, yr)
     # Compute the MLE of the variance parameter
-    res = Optim.optimize(x -> minus_log_like_fullrank(softplus(x), λ, yr), [0.0], LBFGS(); autodiff = :forward);
+    res = Optim.optimize(x -> neg_log_like(softplus(x), λ, yr), [0.0], LBFGS(); autodiff = :forward);
     xmin = res.minimizer;
     return softplus(xmin[1]), res
 end
 
 """
-    minus_log_like_fullrank(δ, λ, yr)
+    neg_log_like(δ, λ, yr)
 
-Compute the minus log-likelihood of the model, scaled by the number of samples and without constant factors, given the variance ratio δ, the eigenvalues of the kernel matrix, and the rotated response vector.
+Compute the negative (restircted) log-likelihood of the model, scaled by the number of samples and without constant factors, given the variance ratio δ, the eigenvalues of the kernel matrix, and the rotated response vector.
 """
-function minus_log_like_fullrank(δ, λ, yr)
+function neg_log_like(δ, λ, yr)
     # Compute the minus log-likelihood of the model, scaled by half the number of samples and without constant factors
-    σ² = sigma2_mle_fullrank(δ, λ, yr);
+    σ² = sigma2_reml(δ, λ, yr);
     return  mean(log.(abs.(λ .+ δ))) .+ log(σ²)
 end
 
 """
-    sigma2_mle_fullrank(δ, λ, yr)
+    sigma2_reml(δ, λ, yr)
 
-Compute the MLE of the variance parameter given the variance ratio δ, the eigenvalues of the kernel matrix, and the rotated response vector.
+Compute the REML of the variance parameter given the variance ratio δ, the eigenvalues of the kernel matrix, and the rotated response vector.
 """
-function sigma2_mle_fullrank(δ, λ, yr)
+function sigma2_reml(δ, λ, yr)
     # Compute the MLE of the variance parameter
     return mean(yr.^2 ./ (λ .+ δ))
 end
