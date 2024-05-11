@@ -34,7 +34,6 @@ Furthermore, we have
 
 ```math
   X (X^T A X)^{-1} X^T = V_1\Gamma W^T (W\Gamma V_1^T A V_1\Gamma W^T)^{-1} W \Gamma V_1^T  = V_1 (V_1^T A V_1)^{-1} V_1^T = V_1 (A_{11})^{-1} V_1^T.
-\end{aligned}
 ```
 
 Using this for the specific case where ``A=(K+\delta I)^{-1}``, together with the identity ``y=(V_1V_1^T+V_2V_2^T)y = V_1y_1 + V_2y_2``, in the equation 
@@ -123,4 +122,24 @@ If ``K`` is given as a square matrix, the projection of ``y`` and ``K`` onto the
 
 ```@docs
 project_orth_covar
+```
+
+## Fixed effects weights
+
+The maximum-likelihood estimate ``\hat\beta`` for the fixed effects weights (see [Introduction](@ref)) can also be expressed conveniently using the same block matrix notation. Still writing ``A=(K+\delta I)^{-1}`` we have
+
+```math
+\begin{aligned}
+\hat \beta &= (X^TAX)^{-1} A^T A y \\
+&= W \Gamma^{-1} (A_{11})^{-1} \Gamma^{-1} W^T W \Gamma V_1^T A y\\
+&= W \Gamma^{-1} (A_{11})^{-1} (Ay)_1\\
+&= W \Gamma^{-1} (A_{11})^{-1} (A_{11}y_1 + A_{12}y_2)\\
+&= W \Gamma^{-1} ( y_1 + (A_{11})^{-1} A_{12} y_2 )
+\end{aligned}
+```
+
+Again using properties of the [inverse](https://en.wikipedia.org/wiki/Block_matrix#Inversion) of a [block matrix](https://en.wikipedia.org/wiki/Block_matrix), we have ``(A_{11})^{-1} A_{12} = B_{12} (B_{22})^{-1}`` where ``B=A^{-1}=K+\delta I``, or
+
+```math
+\hat \beta = W \Gamma^{-1} ( y_1 + K_{12} (K_{22}+\delta I)^{-1} y_2 )
 ```
