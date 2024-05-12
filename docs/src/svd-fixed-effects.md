@@ -121,7 +121,7 @@ which needs to be minimized to obtain the restricted maximum-likelihood estimate
 If ``K`` is given as a square matrix, the projection of ``y`` and ``K`` onto the space orthogonal to the columns of ``X`` is done by the function:
 
 ```@docs
-project_orth_covar
+svd_fixed_effects
 ```
 
 ## Fixed effects weights
