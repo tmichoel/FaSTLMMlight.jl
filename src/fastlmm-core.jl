@@ -15,11 +15,11 @@ function fastlmm_fullrank(y,K; covariates = [], mean = true, lambda_tol = 1e-3)
     
     # if X is not empty, project it out from the response vector and the kernel matrix
     if !isempty(X)
-        y, K = project_orth_covar(y, K, X)
+        y1, y2, K12, K22, γ, Wt  = svd_fixed_effects(y, K, X)
     end
     
     # Eigendecomposition of the kernel matrix
-    EF = eigen(K);
+    EF = eigen(K22);
     λ = EF.values;
     U = EF.vectors;
 
@@ -27,27 +27,31 @@ function fastlmm_fullrank(y,K; covariates = [], mean = true, lambda_tol = 1e-3)
     λ[λ .< lambda_tol] .= 0.0
 
     # Rotate the data
-    yr = U' * y;
+    yr = U' * y2;
 
     if size(yr,2) == 1
         # Compute the REML of the variance ratio δ
         δ, res = delta_reml(λ, yr);
         # Compute the REML of the variance parameter σ²
         σ² = sigma2_reml(δ, λ, yr);
-        # return the MLEs and the full optimization result
-        return σ², δ, res
+        # Compute the MLE of the fixed effects weights
+        β = beta_mle(δ, λ, yr, y1, K12, U, γ, Wt)
+        # return the REMLs of the variance parameter, the MLE of the fixed effects weights and the full optimization result
+        return σ², δ, β, res
     else 
         # Compute and return the REMLs of the variance ratio δ and variance parameter σ² for each column of yr
         δs = zeros(size(yr,2));
         σ²s = zeros(size(yr,2));
         loglikes = zeros(size(yr,2));
+        βs = zeros(size(yr,2), size(X,2));
         for i in eachindex(axes(yr)[2])
             δs[i], res = delta_reml(λ, yr[:,i]);
             σ²s[i] = sigma2_reml(δs[i], λ, yr[:,i]);
+            βs[i,:] = beta_mle(δs[i], λ, yr[:,i], y1[:,i], K12, U, γ, Wt)
             loglikes[i] = minimum(res)
         end
         # return the MLEs and the final objective values (minus log-likelihoods)
-        return σ²s, δs, loglikes
+        return σ²s, δs, βs, loglikes
     end
 end
 
@@ -82,6 +86,15 @@ Compute the REML of the variance parameter given the variance ratio δ, the eige
 function sigma2_reml(δ, λ, yr)
     # Compute the MLE of the variance parameter
     return mean(yr.^2 ./ (λ .+ δ))
+end
+
+function beta_mle(δ, λ, yr, y1, K12, U, γ, Wt)
+    β = Wt * ( (y1 - K12 * U * (yr ./ (λ .+ δ))) ./ γ )
+    if length(β) == 1
+        return β[1]
+    else
+        return β
+    end
 end
 
 # """
@@ -151,25 +164,29 @@ function create_covariate_matrix(X; mean = true, n = 1)
 end
 
 """
-    project_orth_covar(y, K, X)
+    svd_fixed_effects(y, K, X)
 
-Project out the covariates from the response vector and the kernel matrix.
+Compute the SVD of the covariate matrix `X` and return the block deomposition of the response vector `y` and the kernel matrix `K` with respect to the orthogonal complement of the column space of `X`.
 """
-function project_orth_covar(y, K, X)
+function svd_fixed_effects(y, K, X)
     # SVD of the covariate matrix
-    U, S,  = svd(X, full=true);
-    # Get the vectors that span the orthogonal complement of the column space of X
-    U2 = U[:,length(S)+1:end];
-    # Project out the covariates from the response vector and the kernel matrix
-    y2 = U2' * y;
+    F  = svd(X, full=true);
+    # Get the vectors that span the range and orthogonal complement of the column space of X
+    V1 = F.U[:,1:length(F.S)];
+    V2 = F.U[:,length(F.S)+1:end];
+    # Compute the block decomposition of the response vector and the kernel matrix
+    y1 = V1' * y;
+    y2 = V2' * y;
     if !isempty(K)
-        K2 = U2' * K * U2;
+        K12 = V1' * K * V2;
+        K22 = V2' * K * V2;
         # make sure K2 is symmetric
-        K2 = (K2 + K2') / 2
+        K22 = (K22 + K22') / 2
     else
-        K2 = []
+        K12 = []
+        K22 = []
     end
-    return y2, K2
+    return y1, y2, K12, K22, F.S, F.Vt
 end
 
 """
