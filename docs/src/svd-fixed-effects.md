@@ -130,7 +130,7 @@ The maximum-likelihood estimate ``\hat\beta`` for the fixed effects weights (see
 
 ```math
 \begin{aligned}
-\hat \beta &= (X^TAX)^{-1} A^T A y \\
+\hat \beta &= (X^TAX)^{-1} X^T A y \\
 &= W \Gamma^{-1} (A_{11})^{-1} \Gamma^{-1} W^T W \Gamma V_1^T A y\\
 &= W \Gamma^{-1} (A_{11})^{-1} (Ay)_1\\
 &= W \Gamma^{-1} (A_{11})^{-1} (A_{11}y_1 + A_{12}y_2)\\
@@ -138,8 +138,8 @@ The maximum-likelihood estimate ``\hat\beta`` for the fixed effects weights (see
 \end{aligned}
 ```
 
-Again using properties of the [inverse](https://en.wikipedia.org/wiki/Block_matrix#Inversion) of a [block matrix](https://en.wikipedia.org/wiki/Block_matrix), we have ``(A_{11})^{-1} A_{12} = B_{12} (B_{22})^{-1}`` where ``B=A^{-1}=K+\delta I``, or
+Again using properties of the [inverse](https://en.wikipedia.org/wiki/Block_matrix#Inversion) of a [block matrix](https://en.wikipedia.org/wiki/Block_matrix), we have ``(A_{11})^{-1} A_{12} = - B_{12} (B_{22})^{-1}`` where ``B=A^{-1}=K+\delta I``, or
 
 ```math
-\hat \beta = W \Gamma^{-1} ( y_1 + K_{12} (K_{22}+\delta I)^{-1} y_2 )
+\hat \beta = W \Gamma^{-1} ( y_1 - K_{12} (K_{22}+\delta I)^{-1} y_2 )
 ```

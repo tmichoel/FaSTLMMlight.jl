@@ -60,9 +60,9 @@ The fixed effects weights need to be computed only once, after ``\hat\delta`` ha
 
 ```math
 \begin{aligned}
-\hat \beta(\hat\delta) &= W \Gamma^{-1} ( y_1 + K_{12} (K_{22}+\hat\delta I)^{-1} y_2 )\\
-&= W \Gamma^{-1} ( y_1 + K_{12} U(\Lambda+\hat\delta I) U^Ty_2 )\\
-&= W \Gamma^{-1} ( y_1 + K_{12} U (\Lambda+\hat\delta I) \tilde y )
+\hat \beta(\hat\delta) &= W \Gamma^{-1} ( y_1 - K_{12} (K_{22}+\hat\delta I)^{-1} y_2 )\\
+&= W \Gamma^{-1} ( y_1 - K_{12} U(\Lambda+\hat\delta I)^{-1} U^Ty_2 )\\
+&= W \Gamma^{-1} ( y_1 - K_{12} U (\Lambda+\hat\delta I)^{-1} \tilde y )
 \end{aligned}
 ```
 
