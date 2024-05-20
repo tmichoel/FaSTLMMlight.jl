@@ -123,31 +123,31 @@ end
 
 
 
-"""
-    beta_mle_fullrank_lazy(y, K, X, σ², δ)
+# """
+#     beta_mle_fullrank_lazy(y, K, X, σ², δ)
 
-Lazy implementation of the MLE of the fixed effects weights given the response vector `y`, the kernel matrix `K`, the covariates `X`, the variance parameter `σ²` and the variance ratio `δ`. This function does not use spectral factorization, and should only be applied once, using the MLEs of the variance parameters.
-"""
-function beta_mle_fullrank_lazy(y, K, X, σ², δ; mean = true)
-    # Create the covariance matrix
-    if isempty(K)
-        Σ = σ² * I
-    else
-        Σ = σ² * (K + δ*I)
-    end
-    # Create the covariate matrix
-    X = create_covariate_matrix(X; mean = mean, n = size(y,1))
-    # Compute the MLE of the fixed effects weights
-    if isempty(X)
-        return 0.0 # no covariates
-    elseif size(X,2) == 1
-        return dot(X, Σ \ y) / dot(X, Σ \ X)
-    else
-        A = X' * (Σ \ X)
-        b = X' * (Σ \ y) 
-        return A \ b
-    end  
-end
+# Lazy implementation of the MLE of the fixed effects weights given the response vector `y`, the kernel matrix `K`, the covariates `X`, the variance parameter `σ²` and the variance ratio `δ`. This function does not use spectral factorization, and should only be applied once, using the MLEs of the variance parameters.
+# """
+# function beta_mle_fullrank_lazy(y, K, X, σ², δ; mean = true)
+#     # Create the covariance matrix
+#     if isempty(K)
+#         Σ = σ² * I
+#     else
+#         Σ = σ² * (K + δ*I)
+#     end
+#     # Create the covariate matrix
+#     X = create_covariate_matrix(X; mean = mean, n = size(y,1))
+#     # Compute the MLE of the fixed effects weights
+#     if isempty(X)
+#         return 0.0 # no covariates
+#     elseif size(X,2) == 1
+#         return dot(X, Σ \ y) / dot(X, Σ \ X)
+#     else
+#         A = X' * (Σ \ X)
+#         b = X' * (Σ \ y) 
+#         return A \ b
+#     end  
+# end
 
 
 """
