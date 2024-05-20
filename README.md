@@ -14,7 +14,7 @@ with $y\in\mathbb{R}^n$ an observed response vector, $X\in\mathbb{R}^{n\times d}
 
 ## Roadmap
 
- `FaSTLMMlight` will implement the FaST-LMM algorithms for full-rank kernel matrices and low-rank kernel matrix factorizations. I am also investigating whether and when the Fourier-space method of [Greengard et al.](https://arxiv.org/abs/2210.10210) can lead to further speed-up.
+ `FaSTLMMlight` will implement the FaST-LMM algorithms for full-rank kernel matrices and low-rank kernel matrix factorizations. I am also investigating whether and when the Fourier-space method of [Greengard et al.](https://arxiv.org/abs/2210.10210) can lead to further speed-up in cases where the kernel matrix $K$ is coming from a [Gaussian process](https://en.wikipedia.org/wiki/Gaussian_process) with translationally invariant kernal.
 
  Currently completed:
 
