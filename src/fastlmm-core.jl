@@ -88,6 +88,12 @@ function sigma2_reml(δ, λ, yr)
     return mean(yr.^2 ./ (λ .+ δ))
 end
 
+
+"""
+    beta_mle(δ, λ, yr, y1, K12, U, γ, Wt)
+
+Compute the MLE of the fixed effects weights given the variance ratio δ, the eigenvalues of the kernel matrix, the rotated response vector, the rotated response vector projected onto the orthogonal complement of the column space of the covariates, the block decomposition of the kernel matrix, the eigenvectors of the kernel matrix, and the eigenvalues of the kernel matrix.
+"""
 function beta_mle(δ, λ, yr, y1, K12, U, γ, Wt)
     β = Wt * ( (y1 - K12 * U * (yr ./ (λ .+ δ))) ./ γ )
     if length(β) == 1

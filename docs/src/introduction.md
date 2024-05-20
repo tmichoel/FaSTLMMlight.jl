@@ -18,7 +18,7 @@ We consider the setup of [Lippert et al. (2011)](https://europepmc.org/article/m
 and ``y`` is distributed as
 
 ```math
-y \sim N\bigl(\mu + X\beta, \sigma^2 K + \sigma_e^2 I\bigr) = N\bigl( X\beta, \sigma^2 (K + \delta I)\bigr)
+y \sim N\bigl(\mu + X\beta, \sigma^2 K + \sigma_e^2 I\bigr) = N\bigl( \mu + X\beta, \sigma^2 (K + \delta I)\bigr)
 ```
 
 where ``N`` denotes a multivariate normal distribution.
@@ -37,7 +37,7 @@ The parameters ``(\beta,\sigma^2,\delta)`` are estimated by maximum-likelihood (
 \mathcal{L} = \log\det\bigl[ \sigma^2 (K + \delta I) \bigr] + \frac1{\sigma^2} \bigl\langle y-X\beta, (K + \delta I)^{-1} (y-X\beta)\bigr\rangle,
 ```
 
-where ``\langle u,v\rangle=u^Tv=\sum_{i=1}^n u_n v_n`` is the usual inner product on ``\mathbb{R}^n``; note that for any matrix ``A\in\mathbb{R}^{n\times n}`` and vectors ``u,v\in\mathbb{R]^n``, ``\langle u,Av\rangle=\mathrm{tr}(vu^TA)``. 
+where ``\langle u,v\rangle=u^Tv=\sum_{i=1}^n u_i v_i`` is the usual inner product on ``\mathbb{R}^n``; note that for any matrix ``A\in\mathbb{R}^{n\times n}`` and vectors ``u,v \in \mathbb{R]^n``, ``\langle u,Av\rangle=\mathrm{tr}(vu^TA)``. 
 
 Analytic expressions for the maximum-likelihood estimates ``\hat{\beta}`` and ``\hat{\sigma}^2`` as a function of ``\delta`` are easy to obtain:
 

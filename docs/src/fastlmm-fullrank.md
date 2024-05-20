@@ -51,7 +51,6 @@ softplus
 
 ```@docs
 fastlmm_fullrank
-beta_mle_fullrank_lazy
 ```
 
 ## Fixed effects weights using the rotated basis
@@ -67,3 +66,9 @@ The fixed effects weights need to be computed only once, after ``\hat\delta`` ha
 ```
 
 The components of the vector ``(\Lambda+\hat\delta I) \tilde y`` are easily computed elementwise as ``\tilde y_i/(\lambda_i+\hat\delta)``.
+
+This calculation is implemented in the function [`beta_mle`](@ref):
+
+```@docs
+beta_mle
+```
