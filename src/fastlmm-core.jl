@@ -16,6 +16,13 @@ function fastlmm_fullrank(y,K; covariates = [], mean = true, lambda_tol = 1e-3)
     # if X is not empty, project it out from the response vector and the kernel matrix
     if !isempty(X)
         y1, y2, K12, K22, γ, Wt  = svd_fixed_effects(y, K, X)
+    else
+        y1 = []
+        y2 = y
+        K12 = []
+        K22 = K
+        γ = []
+        Wt = []
     end
     
     # Eigendecomposition of the kernel matrix
@@ -62,7 +69,7 @@ Compute the REML of the variance ratio δ given the eigenvalues of the kernel ma
 """
 function delta_reml(λ, yr)
     # Compute the MLE of the variance parameter
-    res = Optim.optimize(x -> neg_log_like(softplus(x), λ, yr), [0.0], LBFGS(); autodiff = :forward);
+    res = Optim.optimize(x -> neg_log_like(softplus(x), λ, yr), [0.0],  ConjugateGradient(); autodiff = :forward);
     xmin = res.minimizer;
     return softplus(xmin[1]), res
 end
@@ -95,6 +102,9 @@ end
 Compute the MLE of the fixed effects weights given the variance ratio δ, the eigenvalues of the kernel matrix, the rotated response vector, the rotated response vector projected onto the orthogonal complement of the column space of the covariates, the block decomposition of the kernel matrix, the eigenvectors of the kernel matrix, and the eigenvalues of the kernel matrix.
 """
 function beta_mle(δ, λ, yr, y1, K12, U, γ, Wt)
+    if isempty(y1)
+        return 0.0 # no covariates
+    end
     β = Wt * ( (y1 - K12 * U * (yr ./ (λ .+ δ))) ./ γ )
     if length(β) == 1
         return β[1]
