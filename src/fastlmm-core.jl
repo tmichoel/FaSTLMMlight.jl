@@ -54,7 +54,7 @@ function fastlmm_fullrank(y,K; covariates = [], mean = true, lambda_tol = 1e-3)
         for i in eachindex(axes(yr)[2])
             δs[i], res = delta_reml(λ, yr[:,i]);
             σ²s[i] = sigma2_reml(δs[i], λ, yr[:,i]);
-            βs[i,:] = beta_mle(δs[i], λ, yr[:,i], y1[:,i], K12, U, γ, Wt)
+            βs[i,:] .= beta_mle(δs[i], λ, yr[:,i], y1[:,i], K12, U, γ, Wt)
             loglikes[i] = minimum(res)
         end
         # return the MLEs and the final objective values (minus log-likelihoods)
